@@ -1,0 +1,40 @@
+@prefix padi: <https://padi.authority/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+
+<https://padi.authority/ontology#> a owl:Ontology ;
+    rdfs:label "PADI Technical Standard Ontology v1.0" ;
+    schema:author <https://peculiarlibrarian.com/id/samuel-muriithi> ;
+    rdfs:comment "Authority Architecture & Structural Compliance Framework for Competitive Legal Markets." .
+
+# 7.1 Core Classes
+padi:LegalServiceProvider a owl:Class ;
+    rdfs:label "Legal Service Provider" ;
+    rdfs:comment "An entity offering legally regulated services within a defined jurisdiction." .
+
+padi:PracticeArea a owl:Class ;
+    rdfs:label "Practice Area" ;
+    rdfs:comment "A formally recognized domain of legal representation." .
+
+padi:CaseSubtype a owl:Class ;
+    rdfs:label "Case Subtype" ;
+    rdfs:comment "A structured specialization within a practice area." .
+
+padi:LegalMechanism a owl:Class ;
+    rdfs:label "Legal Mechanism" ;
+    rdfs:comment "A doctrinal requirement necessary to establish liability." .
+
+# 7.2 Structural Object Properties
+padi:handlesPracticeArea a owl:ObjectProperty ;
+    rdfs:domain padi:LegalServiceProvider ;
+    rdfs:range padi:PracticeArea .
+
+padi:hasCaseSubtype a owl:ObjectProperty ;
+    rdfs:domain padi:PracticeArea ;
+    rdfs:range padi:CaseSubtype .
+
+padi:requiresProofOf a owl:ObjectProperty ;
+    rdfs:domain padi:CaseSubtype ;
+    rdfs:range padi:LegalMechanism .
