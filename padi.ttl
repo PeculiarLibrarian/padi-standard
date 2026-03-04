@@ -1,73 +1,69 @@
-@prefix padi: <https://padi.authority/ontology#> .
+@prefix : <https://padi.authority/v1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema: <https://schema.org/> .
+@base <https://padi.authority/v1/> .
 
-<https://padi.authority/ontology#> a owl:Ontology ;
+<https://padi.authority/v1/> a owl:Ontology ;
     rdfs:label "PADI Technical Standard Ontology v1.0" ;
     dc:creator "Samuel Muriithi, B.S. Information Science" ;
     dc:description "A specialized application of Library Science classification models for legal authority architecture." ;
     schema:academicProvenance <http://www.wikidata.org/entity/Q163205> ; # Information Science
     schema:specialization <http://www.wikidata.org/entity/Q199657> ; # Library Science
-    rdfs:comment "This ontology establishes the formal Knowledge Organization System (KOS) for practice-area depth." .
+    rdfs:comment "This ontology establishes the formal Knowledge Organization System (KOS) for practice-area depth and cardinality validation.".
 
 #################################################################
-#    Classes
+#    Classes & Cardinality Logic
 #################################################################
 
-padi:LegalServiceProvider a owl:Class ;
+:LegalServiceProvider a owl:Class ;
     rdfs:label "Legal Service Provider" ;
-    rdfs:comment "An entity providing regulated legal services within a jurisdiction." .
+    rdfs:comment "An entity providing regulated legal services within a jurisdiction.".
 
-padi:PracticeArea a owl:Class ;
+:PracticeArea a owl:Class ;
     rdfs:label "Practice Area" ;
-    rdfs:comment "A specific domain of legal expertise (e.g., Personal Injury)." .
+    rdfs:comment "A specific domain of legal expertise (e.g., Personal Injury).".
 
-padi:CaseSubtype a owl:Class ;
+:CaseSubtype a owl:Class ;
     rdfs:label "Case Subtype" ;
-    rdfs:comment "A specialized niche within a practice area (e.g., Trucking Accidents)." .
+    rdfs:comment "A specialized niche within a practice area (e.g., Trucking Accidents).".
 
-padi:LegalMechanism a owl:Class ;
-    rdfs:label "Legal Mechanism" ;
-    rdfs:comment "The doctrinal elements required to prove liability (e.g., Duty, Breach, Causation, Damages)." .
-
-padi:Jurisdiction a owl:Class ;
-    rdfs:label "Jurisdiction" ;
-    rdfs:comment "The geographic or legal boundary where authority is exercised." .
+:VerifiedAuthority a owl:Class ;
+    owl:equivalentClass [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasDepthScore ;
+                          owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
+                          owl:onDataRange xsd:integer
+                        ] ;
+    rdfs:label "1003 Verified Authority" ;
+    rdfs:comment "An entity meeting the PADI cardinality threshold of 3, as symbolized by the Cardinality Shield.".
 
 #################################################################
-#    Properties
+#    Properties (Authority Anchors)
 #################################################################
 
-padi:hasPracticeArea a owl:ObjectProperty ;
-    rdfs:domain padi:LegalServiceProvider ;
-    rdfs:range padi:PracticeArea .
+:hasPracticeArea a owl:ObjectProperty ;
+    rdfs:domain :LegalServiceProvider ;
+    rdfs:range :PracticeArea .
 
-padi:hasSubtype a owl:ObjectProperty ;
-    rdfs:domain padi:PracticeArea ;
-    rdfs:range padi:CaseSubtype .
+:hasSubtype a owl:ObjectProperty ;
+    rdfs:domain :PracticeArea ;
+    rdfs:range :CaseSubtype .
 
-padi:hasMechanism a owl:ObjectProperty ;
-    rdfs:domain padi:CaseSubtype ;
-    rdfs:range padi:LegalMechanism .
-
-padi:governedBy a owl:ObjectProperty ;
-    rdfs:domain padi:CaseSubtype ;
-    rdfs:range padi:Jurisdiction .
-
-padi:hasDepthScore a owl:DatatypeProperty ;
-    rdfs:domain padi:LegalServiceProvider ;
+:hasDepthScore a owl:DatatypeProperty ;
+    rdfs:domain :LegalServiceProvider ;
     rdfs:range xsd:integer .
 
 #################################################################
-#    Individuals (Dallas PI Market Context)
+#    Individuals (Dallas PI Market Registry)
 #################################################################
 
-padi:PersonalInjury a padi:PracticeArea ;
+:PersonalInjury a :PracticeArea ;
     rdfs:label "Personal Injury" .
 
-padi:TruckingAccidents a padi:CaseSubtype ;
+:TruckingAccidents a :CaseSubtype ;
     rdfs:label "Commercial Trucking Accidents" ;
-    padi:hasMechanism padi:Causation .
+    rdfs:comment "A primary depth-indexing target for Dallas-based legal audits.".
