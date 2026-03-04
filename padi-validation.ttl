@@ -1,0 +1,26 @@
+@prefix padi: <https://padi.authority/ontology#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <https://schema.org/> .
+@prefix ex: <https://padi.authority/shapes#> .
+
+# 9.2 Mandatory SHACL Domains: Practice Area Shape
+ex:PracticeAreaShape
+    a sh:NodeShape ;
+    sh:targetClass padi:PracticeArea ;
+    sh:property [
+        sh:path padi:hasCaseSubtype ;
+        sh:minCount 3 ;
+        sh:severity sh:Violation ;
+        sh:message "PADI v1.0 Requirement: A Practice Area MUST include at least 3 case subtypes to establish depth." ;
+    ] .
+
+# 9.2 Legal Service Provider Shape
+ex:ServiceProviderShape
+    a sh:NodeShape ;
+    sh:targetClass padi:LegalServiceProvider ;
+    sh:property [
+        sh:path padi:operatesIn ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "Critical: Jurisdictional anchoring is missing." ;
+    ] .
