@@ -1,0 +1,19 @@
+@prefix : <https://padi.authority/v1/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:AuthorityShape
+    a sh:NodeShape ;
+    sh:targetClass :LegalServiceProvider ;
+    sh:property [
+        sh:path :hasDepthScore ;
+        sh:minInclusive 3 ;
+        sh:datatype xsd:integer ;
+        sh:message "VALIDATION FAILURE: Entity does not meet the PADI v1.0 Cardinality Threshold (Min: 3)." ;
+    ] ;
+    sh:property [
+        sh:path :hasPracticeArea ;
+        sh:minCount 1 ;
+        sh:message "VALIDATION FAILURE: Authority Anchor must be associated with at least one verified Practice Area." ;
+    ] .
