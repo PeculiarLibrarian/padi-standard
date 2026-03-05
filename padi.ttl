@@ -1,114 +1,48 @@
-@prefix : <https://padi.authority/v1/> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix schema: <https://schema.org/> .
-@base <https://padi.authority/v1/> .
-
-<https://padi.authority/v1/> a owl:Ontology ;
-    rdfs:label "PADI Technical Standard Ontology v1.0" ;
-    dc:creator "Samuel Muriithi, B.S. Information Science" ;
-    dc:description "A specialized application of Library Science classification models for legal authority architecture." ;
-    schema:academicProvenance <http://www.wikidata.org/entity/Q163205> ;
-    schema:specialization <http://www.wikidata.org/entity/Q199657> .
-
 #################################################################
-#    1. Core System & Content Classes
+#    6. PADI Master Taxonomy: Personal Injury (Dallas Core)
+#    Reference Individuals for Topical Coverage (TC) Calculation
 #################################################################
 
-:LegalServiceProvider a owl:Class ;
-    rdfs:label "Legal Service Provider" .
+### --- Statutory & Regulatory Nodes (Texas Foundation) ---
 
-:Jurisdiction a owl:Class ;
-    rdfs:label "Jurisdiction" ;
-    rdfs:comment "Geographic or legal boundary (e.g., Dallas County)." .
+:CPRC_33_ComparativeResponsibility a owl:NamedIndividual , :AuditMetric ;
+    rdfs:label "Texas CPRC Chapter 33: Proportionate Responsibility" ;
+    rdfs:comment "Mandatory node for Texas tort liability modeling.".
 
-:PracticeArea a owl:Class ;
-    rdfs:label "Practice Area" .
+:CPRC_16_Limitations a owl:NamedIndividual , :AuditMetric ;
+    rdfs:label "Texas CPRC Chapter 16: Statutes of Limitations".
 
-:CaseSubtype a owl:Class ;
-    rdfs:label "Case Subtype" .
+:CPRC_41_ExemplaryDamages a owl:NamedIndividual , :AuditMetric ;
+    rdfs:label "Texas CPRC Chapter 41: Damages & Gross Negligence".
 
-:ContentNode a owl:Class ;
-    rdfs:label "Content Node" ;
-    rdfs:comment "Abstract class for all authority-building digital assets." .
+:TexasTransCode_545 a owl:NamedIndividual , :AuditMetric ;
+    rdfs:label "Texas Transportation Code §545: Rules of the Road".
 
-:PillarPage a owl:Class ;
-    rdfs:subClassOf :ContentNode ;
-    rdfs:label "Authority Pillar Page" .
+### --- Tactical Subtype Nodes (1003 Cardinality Targets) ---
 
-:ClusterArticle a owl:Class ;
-    rdfs:subClassOf :ContentNode ;
-    rdfs:label "Cluster Article" .
+:FMCSA_Compliance a owl:NamedIndividual , :CaseSubtype ;
+    rdfs:label "FMCSA Regulatory Compliance" ;
+    rdfs:comment "Critical node for Commercial Trucking authority.".
 
-#################################################################
-#    2. Authority Measurement & Audit Classes
-#################################################################
+:HOS_Violations a owl:NamedIndividual , :CaseSubtype ;
+    rdfs:label "Hours of Service (HOS) Violations".
 
-:AuditMetric a owl:Class ;
-    rdfs:label "Audit Metric" .
+:BlackBox_Forensics a owl:NamedIndividual , :CaseSubtype ;
+    rdfs:label "EDR/Black Box Data Retrieval".
 
-:AuthorityScore a owl:Class ;
-    rdfs:subClassOf :AuditMetric ;
-    rdfs:label "Topical Authority Score" .
+:DramShopLiability a owl:NamedIndividual , :CaseSubtype ;
+    rdfs:label "Texas Dram Shop Act (Liquor Liability)".
 
-:AuthorityGap a owl:Class ;
-    rdfs:subClassOf :AuditMetric ;
-    rdfs:label "Structural Authority Gap" .
+:UM_UIM_Claims a owl:NamedIndividual , :CaseSubtype ;
+    rdfs:label "Uninsured/Underinsured Motorist Claims".
 
-:VerifiedAuthority a owl:Class ;
-    owl:equivalentClass [ rdf:type owl:Restriction ;
-                          owl:onProperty :hasDepthScore ;
-                          owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
-                          owl:onDataRange xsd:integer
-                        ] ;
-    rdfs:label "1003 Verified Authority" .
+### --- Procedural Nodes (Semantic Coverage Anchors) ---
 
-#################################################################
-#    3. Object Properties (Entity Relationships)
-#################################################################
+:Dallas_ADR_Process a owl:NamedIndividual , :AuditMetric ;
+    rdfs:label "Dallas County Alternative Dispute Resolution".
 
-:operatesIn a owl:ObjectProperty ;
-    rdfs:domain :LegalServiceProvider ;
-    rdfs:range :Jurisdiction .
+:Discovery_Production a owl:NamedIndividual , :AuditMetric ;
+    rdfs:label "Requests for Production & Interrogatories".
 
-:hasPillar a owl:ObjectProperty ;
-    rdfs:domain :CaseSubtype ;
-    rdfs:range :PillarPage .
-
-:supportedBy a owl:ObjectProperty ;
-    rdfs:domain :PillarPage ;
-    rdfs:range :ClusterArticle .
-
-:measuredBy a owl:ObjectProperty ;
-    rdfs:domain :ContentNode ;
-    rdfs:range :AuthorityScore .
-
-:exhibitsGap a owl:ObjectProperty ;
-    rdfs:domain :LegalServiceProvider ;
-    rdfs:range :AuthorityGap .
-
-#################################################################
-#    4. Datatype Properties
-#################################################################
-
-:hasDepthScore a owl:DatatypeProperty ;
-    rdfs:domain :LegalServiceProvider ;
-    rdfs:range xsd:integer .
-
-:gapMagnitude a owl:DatatypeProperty ;
-    rdfs:domain :AuthorityGap ;
-    rdfs:range xsd:decimal .
-
-#################################################################
-#    5. Individuals (Sample Context)
-#################################################################
-
-:DallasJurisdiction a :Jurisdiction ;
-    rdfs:label "Dallas, TX" .
-
-:TruckingAccidents a :CaseSubtype ;
-    :hasPillar :DallasTruckingPillar .
+:Medical_Expert_Integration a owl:NamedIndividual , :AuditMetric ;
+    rdfs:label "Expert Witness Testimony & Life Care Planning".
