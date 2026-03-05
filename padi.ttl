@@ -12,25 +12,52 @@
     rdfs:label "PADI Technical Standard Ontology v1.0" ;
     dc:creator "Samuel Muriithi, B.S. Information Science" ;
     dc:description "A specialized application of Library Science classification models for legal authority architecture." ;
-    schema:academicProvenance <http://www.wikidata.org/entity/Q163205> ; # Information Science
-    schema:specialization <http://www.wikidata.org/entity/Q199657> ; # Library Science
-    rdfs:comment "This ontology establishes the formal Knowledge Organization System (KOS) for practice-area depth and cardinality validation.".
+    schema:academicProvenance <http://www.wikidata.org/entity/Q163205> ;
+    schema:specialization <http://www.wikidata.org/entity/Q199657> .
 
 #################################################################
-#    Classes & Cardinality Logic
+#    1. Core System & Content Classes
 #################################################################
 
 :LegalServiceProvider a owl:Class ;
-    rdfs:label "Legal Service Provider" ;
-    rdfs:comment "An entity providing regulated legal services within a jurisdiction.".
+    rdfs:label "Legal Service Provider" .
+
+:Jurisdiction a owl:Class ;
+    rdfs:label "Jurisdiction" ;
+    rdfs:comment "Geographic or legal boundary (e.g., Dallas County)." .
 
 :PracticeArea a owl:Class ;
-    rdfs:label "Practice Area" ;
-    rdfs:comment "A specific domain of legal expertise (e.g., Personal Injury).".
+    rdfs:label "Practice Area" .
 
 :CaseSubtype a owl:Class ;
-    rdfs:label "Case Subtype" ;
-    rdfs:comment "A specialized niche within a practice area (e.g., Trucking Accidents).".
+    rdfs:label "Case Subtype" .
+
+:ContentNode a owl:Class ;
+    rdfs:label "Content Node" ;
+    rdfs:comment "Abstract class for all authority-building digital assets." .
+
+:PillarPage a owl:Class ;
+    rdfs:subClassOf :ContentNode ;
+    rdfs:label "Authority Pillar Page" .
+
+:ClusterArticle a owl:Class ;
+    rdfs:subClassOf :ContentNode ;
+    rdfs:label "Cluster Article" .
+
+#################################################################
+#    2. Authority Measurement & Audit Classes
+#################################################################
+
+:AuditMetric a owl:Class ;
+    rdfs:label "Audit Metric" .
+
+:AuthorityScore a owl:Class ;
+    rdfs:subClassOf :AuditMetric ;
+    rdfs:label "Topical Authority Score" .
+
+:AuthorityGap a owl:Class ;
+    rdfs:subClassOf :AuditMetric ;
+    rdfs:label "Structural Authority Gap" .
 
 :VerifiedAuthority a owl:Class ;
     owl:equivalentClass [ rdf:type owl:Restriction ;
@@ -38,32 +65,50 @@
                           owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
                           owl:onDataRange xsd:integer
                         ] ;
-    rdfs:label "1003 Verified Authority" ;
-    rdfs:comment "An entity meeting the PADI cardinality threshold of 3, as symbolized by the Cardinality Shield.".
+    rdfs:label "1003 Verified Authority" .
 
 #################################################################
-#    Properties (Authority Anchors)
+#    3. Object Properties (Entity Relationships)
 #################################################################
 
-:hasPracticeArea a owl:ObjectProperty ;
+:operatesIn a owl:ObjectProperty ;
     rdfs:domain :LegalServiceProvider ;
-    rdfs:range :PracticeArea .
+    rdfs:range :Jurisdiction .
 
-:hasSubtype a owl:ObjectProperty ;
-    rdfs:domain :PracticeArea ;
-    rdfs:range :CaseSubtype .
+:hasPillar a owl:ObjectProperty ;
+    rdfs:domain :CaseSubtype ;
+    rdfs:range :PillarPage .
+
+:supportedBy a owl:ObjectProperty ;
+    rdfs:domain :PillarPage ;
+    rdfs:range :ClusterArticle .
+
+:measuredBy a owl:ObjectProperty ;
+    rdfs:domain :ContentNode ;
+    rdfs:range :AuthorityScore .
+
+:exhibitsGap a owl:ObjectProperty ;
+    rdfs:domain :LegalServiceProvider ;
+    rdfs:range :AuthorityGap .
+
+#################################################################
+#    4. Datatype Properties
+#################################################################
 
 :hasDepthScore a owl:DatatypeProperty ;
     rdfs:domain :LegalServiceProvider ;
     rdfs:range xsd:integer .
 
+:gapMagnitude a owl:DatatypeProperty ;
+    rdfs:domain :AuthorityGap ;
+    rdfs:range xsd:decimal .
+
 #################################################################
-#    Individuals (Dallas PI Market Registry)
+#    5. Individuals (Sample Context)
 #################################################################
 
-:PersonalInjury a :PracticeArea ;
-    rdfs:label "Personal Injury" .
+:DallasJurisdiction a :Jurisdiction ;
+    rdfs:label "Dallas, TX" .
 
 :TruckingAccidents a :CaseSubtype ;
-    rdfs:label "Commercial Trucking Accidents" ;
-    rdfs:comment "A primary depth-indexing target for Dallas-based legal audits.".
+    :hasPillar :DallasTruckingPillar .
