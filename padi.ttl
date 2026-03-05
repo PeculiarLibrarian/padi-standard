@@ -1,7 +1,10 @@
-#################################################################
-#    6. PADI Master Taxonomy: Personal Injury (Dallas Market)
-#    Structural Hierarchy for Topical Coverage (TC) Calculation
-#################################################################
+@prefix : <https://padi.authority/v1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://padi.authority/v1/> rdf:type owl:Ontology ;
+    rdfs:label "PADI v1.0 Master Taxonomy" .
 
 ### --- 6.1 Accident Cluster Hierarchy ---
 
@@ -21,47 +24,54 @@
     rdfs:subClassOf :MotorVehicleAccident ;
     rdfs:label "Motorcycle Accident" .
 
-### --- 6.2 Granular Subtopics (1003 Cardinality Targets) ---
+### --- 6.2 Granular Subtopics (Verified Labels) ---
 
-# Car Accident Subtopics
-:RearEndCollision a owl:Class ; rdfs:subClassOf :CarAccident .
-:TBoneAccident a owl:Class ; rdfs:subClassOf :CarAccident .
-:UberLyftAccident a owl:Class ; rdfs:subClassOf :CarAccident .
-:DrunkDrivingAccident a owl:Class ; rdfs:subClassOf :CarAccident .
+:RearEndCollision a owl:Class ; 
+    rdfs:subClassOf :CarAccident ; 
+    rdfs:label "Rear-End Collision" .
 
-# Truck Accident Subtopics (High-Gravity Nodes)
-:EighteenWheelerAccident a owl:Class ; rdfs:subClassOf :TruckAccident .
-:JackknifeAccident a owl:Class ; rdfs:subClassOf :TruckAccident .
-:UnderrideAccident a owl:Class ; rdfs:subClassOf :TruckAccident .
-:FMCSA_Compliance a owl:Class ; rdfs:subClassOf :TruckAccident .
+:TBoneAccident a owl:Class ; 
+    rdfs:subClassOf :CarAccident ; 
+    rdfs:label "T-Bone Accident" .
 
-### --- 6.3 Specialized Practice Areas ---
+:UberLyftAccident a owl:Class ; 
+    rdfs:subClassOf :CarAccident ; 
+    rdfs:label "Uber and Lyft Accident" .
 
-:PremisesLiability a owl:Class ;
-    rdfs:subClassOf :PracticeArea ;
-    rdfs:label "Premises Liability (Slip and Fall)" .
+:DrunkDrivingAccident a owl:Class ; 
+    rdfs:subClassOf :CarAccident ; 
+    rdfs:label "Drunk Driving Accident" .
 
-:MedicalMalpractice a owl:Class ;
-    rdfs:subClassOf :PracticeArea ;
-    rdfs:label "Medical Malpractice" .
+:EighteenWheelerAccident a owl:Class ; 
+    rdfs:subClassOf :TruckAccident ; 
+    rdfs:label "18-Wheeler Accident" .
 
-:WorkplaceInjury a owl:Class ;
-    rdfs:subClassOf :PracticeArea ;
-    rdfs:label "Workplace & Industrial Injury" .
+:JackknifeAccident a owl:Class ; 
+    rdfs:subClassOf :TruckAccident ; 
+    rdfs:label "Jackknife Accident" .
 
-### --- 6.4 Statutory & Procedural Layer (The Dallas Anchor) ---
+:UnderrideAccident a owl:Class ; 
+    rdfs:subClassOf :TruckAccident ; 
+    rdfs:label "Underride Accident" .
+
+:FMCSA_Compliance a owl:Class ; 
+    rdfs:subClassOf :TruckAccident ; 
+    rdfs:label "FMCSA Compliance" .
+
+### --- 6.4 Statutory Layer (Dallas Jurisdictional Anchor) ---
 
 :TexasStatutoryAnchor a owl:Class ;
     rdfs:subClassOf :AuditMetric ;
-    rdfs:label "Texas Statutory Compliance Node" .
+    rdfs:label "Texas Statutory Compliance" .
 
-:CPRC_33_ProportionateResponsibility a owl:Class ; rdfs:subClassOf :TexasStatutoryAnchor .
-:CPRC_16_Limitations a owl:Class ; rdfs:subClassOf :TexasStatutoryAnchor .
-:CPRC_41_ExemplaryDamages a owl:Class ; rdfs:subClassOf :TexasStatutoryAnchor .
+:CPRC_33_ProportionateResponsibility a owl:Class ; 
+    rdfs:subClassOf :TexasStatutoryAnchor ; 
+    rdfs:label "Chapter 33 Proportionate Responsibility" .
 
-:LegalProcessNode a owl:Class ;
-    rdfs:subClassOf :AuditMetric ;
-    rdfs:label "Legal Process & Procedural Node" .
+:CPRC_16_Limitations a owl:Class ; 
+    rdfs:subClassOf :TexasStatutoryAnchor ; 
+    rdfs:label "Statute of Limitations" .
 
-:DiscoveryProcess a owl:Class ; rdfs:subClassOf :LegalProcessNode .
-:Dallas_ADR_Mediation a owl:Class ; rdfs:subClassOf :LegalProcessNode .
+:CPRC_41_ExemplaryDamages a owl:Class ; 
+    rdfs:subClassOf :TexasStatutoryAnchor ; 
+    rdfs:label "Exemplary Damages" .
