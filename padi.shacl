@@ -3,6 +3,10 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
+#################################################################
+#    1. Entity Authority Shape (The 1003 Root)
+#################################################################
+
 :AuthorityShape
     a sh:NodeShape ;
     sh:targetClass :LegalServiceProvider ;
@@ -10,10 +14,44 @@
         sh:path :hasDepthScore ;
         sh:minInclusive 3 ;
         sh:datatype xsd:integer ;
-        sh:message "VALIDATION FAILURE: Entity does not meet the PADI v1.0 Cardinality Threshold (Min: 3)." ;
+        sh:message "CRITICAL FAILURE: Entity does not meet the PADI v1.0 Cardinality Threshold (Min: 3)." ;
     ] ;
     sh:property [
         sh:path :hasPracticeArea ;
         sh:minCount 1 ;
         sh:message "VALIDATION FAILURE: Authority Anchor must be associated with at least one verified Practice Area." ;
+    ] .
+
+#################################################################
+#    2. Content Depth Shape (The Pillar-to-Cluster Ratio)
+#################################################################
+
+:ContentDepthShape
+    a sh:NodeShape ;
+    sh:targetClass :PillarPage ;
+    rdfs:label "PADI Pillar Validation" ;
+    sh:property [
+        sh:path :supportedBy ;
+        sh:minCount 3 ;
+        sh:message "DEPTH FAILURE: Pillar Page lacks sufficient structural support. Minimum of 3 Cluster Articles required for PADI v1.0 validation." ;
+    ] ;
+    sh:property [
+        sh:path :measuredBy ;
+        sh:class :AuthorityScore ;
+        sh:minCount 1 ;
+        sh:message "METRIC FAILURE: Pillar Page has not been assigned a formal Authority Score." ;
+    ] .
+
+#################################################################
+#    3. Jurisdictional Nexus Shape
+#################################################################
+
+:JurisdictionShape
+    a sh:NodeShape ;
+    sh:targetClass :LegalServiceProvider ;
+    sh:property [
+        sh:path :operatesIn ;
+        sh:minCount 1 ;
+        sh:class :Jurisdiction ;
+        sh:message "COMPLIANCE FAILURE: Entity must be anchored to a verified Jurisdiction (e.g., Dallas County)." ;
     ] .
