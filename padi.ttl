@@ -1,48 +1,67 @@
 #################################################################
-#    6. PADI Master Taxonomy: Personal Injury (Dallas Core)
-#    Reference Individuals for Topical Coverage (TC) Calculation
+#    6. PADI Master Taxonomy: Personal Injury (Dallas Market)
+#    Structural Hierarchy for Topical Coverage (TC) Calculation
 #################################################################
 
-### --- Statutory & Regulatory Nodes (Texas Foundation) ---
+### --- 6.1 Accident Cluster Hierarchy ---
 
-:CPRC_33_ComparativeResponsibility a owl:NamedIndividual , :AuditMetric ;
-    rdfs:label "Texas CPRC Chapter 33: Proportionate Responsibility" ;
-    rdfs:comment "Mandatory node for Texas tort liability modeling.".
+:MotorVehicleAccident a owl:Class ;
+    rdfs:subClassOf :PracticeArea ;
+    rdfs:label "Motor Vehicle Accident" .
 
-:CPRC_16_Limitations a owl:NamedIndividual , :AuditMetric ;
-    rdfs:label "Texas CPRC Chapter 16: Statutes of Limitations".
+:CarAccident a owl:Class ;
+    rdfs:subClassOf :MotorVehicleAccident ;
+    rdfs:label "Car Accident" .
 
-:CPRC_41_ExemplaryDamages a owl:NamedIndividual , :AuditMetric ;
-    rdfs:label "Texas CPRC Chapter 41: Damages & Gross Negligence".
+:TruckAccident a owl:Class ;
+    rdfs:subClassOf :MotorVehicleAccident ;
+    rdfs:label "Truck Accident" .
 
-:TexasTransCode_545 a owl:NamedIndividual , :AuditMetric ;
-    rdfs:label "Texas Transportation Code §545: Rules of the Road".
+:MotorcycleAccident a owl:Class ;
+    rdfs:subClassOf :MotorVehicleAccident ;
+    rdfs:label "Motorcycle Accident" .
 
-### --- Tactical Subtype Nodes (1003 Cardinality Targets) ---
+### --- 6.2 Granular Subtopics (1003 Cardinality Targets) ---
 
-:FMCSA_Compliance a owl:NamedIndividual , :CaseSubtype ;
-    rdfs:label "FMCSA Regulatory Compliance" ;
-    rdfs:comment "Critical node for Commercial Trucking authority.".
+# Car Accident Subtopics
+:RearEndCollision a owl:Class ; rdfs:subClassOf :CarAccident .
+:TBoneAccident a owl:Class ; rdfs:subClassOf :CarAccident .
+:UberLyftAccident a owl:Class ; rdfs:subClassOf :CarAccident .
+:DrunkDrivingAccident a owl:Class ; rdfs:subClassOf :CarAccident .
 
-:HOS_Violations a owl:NamedIndividual , :CaseSubtype ;
-    rdfs:label "Hours of Service (HOS) Violations".
+# Truck Accident Subtopics (High-Gravity Nodes)
+:EighteenWheelerAccident a owl:Class ; rdfs:subClassOf :TruckAccident .
+:JackknifeAccident a owl:Class ; rdfs:subClassOf :TruckAccident .
+:UnderrideAccident a owl:Class ; rdfs:subClassOf :TruckAccident .
+:FMCSA_Compliance a owl:Class ; rdfs:subClassOf :TruckAccident .
 
-:BlackBox_Forensics a owl:NamedIndividual , :CaseSubtype ;
-    rdfs:label "EDR/Black Box Data Retrieval".
+### --- 6.3 Specialized Practice Areas ---
 
-:DramShopLiability a owl:NamedIndividual , :CaseSubtype ;
-    rdfs:label "Texas Dram Shop Act (Liquor Liability)".
+:PremisesLiability a owl:Class ;
+    rdfs:subClassOf :PracticeArea ;
+    rdfs:label "Premises Liability (Slip and Fall)" .
 
-:UM_UIM_Claims a owl:NamedIndividual , :CaseSubtype ;
-    rdfs:label "Uninsured/Underinsured Motorist Claims".
+:MedicalMalpractice a owl:Class ;
+    rdfs:subClassOf :PracticeArea ;
+    rdfs:label "Medical Malpractice" .
 
-### --- Procedural Nodes (Semantic Coverage Anchors) ---
+:WorkplaceInjury a owl:Class ;
+    rdfs:subClassOf :PracticeArea ;
+    rdfs:label "Workplace & Industrial Injury" .
 
-:Dallas_ADR_Process a owl:NamedIndividual , :AuditMetric ;
-    rdfs:label "Dallas County Alternative Dispute Resolution".
+### --- 6.4 Statutory & Procedural Layer (The Dallas Anchor) ---
 
-:Discovery_Production a owl:NamedIndividual , :AuditMetric ;
-    rdfs:label "Requests for Production & Interrogatories".
+:TexasStatutoryAnchor a owl:Class ;
+    rdfs:subClassOf :AuditMetric ;
+    rdfs:label "Texas Statutory Compliance Node" .
 
-:Medical_Expert_Integration a owl:NamedIndividual , :AuditMetric ;
-    rdfs:label "Expert Witness Testimony & Life Care Planning".
+:CPRC_33_ProportionateResponsibility a owl:Class ; rdfs:subClassOf :TexasStatutoryAnchor .
+:CPRC_16_Limitations a owl:Class ; rdfs:subClassOf :TexasStatutoryAnchor .
+:CPRC_41_ExemplaryDamages a owl:Class ; rdfs:subClassOf :TexasStatutoryAnchor .
+
+:LegalProcessNode a owl:Class ;
+    rdfs:subClassOf :AuditMetric ;
+    rdfs:label "Legal Process & Procedural Node" .
+
+:DiscoveryProcess a owl:Class ; rdfs:subClassOf :LegalProcessNode .
+:Dallas_ADR_Mediation a owl:Class ; rdfs:subClassOf :LegalProcessNode .
