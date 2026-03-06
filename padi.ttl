@@ -9,14 +9,13 @@
     rdfs:comment "Official OWL 2 Logic for Practice-Area Depth Index (PADI) with Temporal Velocity tracking." .
 
 #################################################################
-#    1. Core Architecture Properties (v2.0)
+#    1. Core Properties & Metrics
 #################################################################
 
 :lastValidated a owl:DatatypeProperty ;
     rdfs:domain :LegalServiceProvider ;
     rdfs:range xsd:dateTime ;
-    rdfs:label "Last Validation Timestamp" ;
-    rdfs:comment "The precise ISO 8601 timestamp when this entity's authority was last audited by the PADI engine." .
+    rdfs:label "Last Validation Timestamp" .
 
 :hasDepthScore a owl:DatatypeProperty ;
     rdfs:domain :LegalServiceProvider ;
@@ -31,6 +30,14 @@
     rdfs:domain :PillarPage ;
     rdfs:range :ClusterArticle .
 
+:measuredBy a owl:ObjectProperty ;
+    rdfs:domain :PillarPage ;
+    rdfs:range :AuditMetric .
+
+:operatesIn a owl:ObjectProperty ;
+    rdfs:domain :LegalServiceProvider ;
+    rdfs:range :Jurisdiction .
+
 #################################################################
 #    2. Top-Level Classes
 #################################################################
@@ -40,9 +47,11 @@
 :PillarPage a owl:Class ; rdfs:label "Pillar Page" .
 :ClusterArticle a owl:Class ; rdfs:label "Cluster Article" .
 :AuditMetric a owl:Class ; rdfs:label "Audit Metric" .
+:Jurisdiction a owl:Class ; rdfs:label "Jurisdiction" .
+:AuthorityScore a owl:Class ; rdfs:subClassOf :AuditMetric .
 
 #################################################################
-#    3. Accident Cluster Hierarchy (Section 6.1)
+#    3. Accident Cluster Hierarchy (Section 6.1 & 6.2)
 #################################################################
 
 :MotorVehicleAccident a owl:Class ;
@@ -61,44 +70,12 @@
     rdfs:subClassOf :MotorVehicleAccident ;
     rdfs:label "Motorcycle Accident" .
 
-#################################################################
-#    4. Granular Subtopics (Section 6.2)
-#################################################################
-
-:RearEndCollision a owl:Class ; 
-    rdfs:subClassOf :CarAccident ; 
-    rdfs:label "Rear-End Collision" .
-
-:TBoneAccident a owl:Class ; 
-    rdfs:subClassOf :CarAccident ; 
-    rdfs:label "T-Bone Accident" .
-
-:UberLyftAccident a owl:Class ; 
-    rdfs:subClassOf :CarAccident ; 
-    rdfs:label "Uber and Lyft Accident" .
-
-:DrunkDrivingAccident a owl:Class ; 
-    rdfs:subClassOf :CarAccident ; 
-    rdfs:label "Drunk Driving Accident" .
-
 :EighteenWheelerAccident a owl:Class ; 
     rdfs:subClassOf :TruckAccident ; 
     rdfs:label "18-Wheeler Accident" .
 
-:JackknifeAccident a owl:Class ; 
-    rdfs:subClassOf :TruckAccident ; 
-    rdfs:label "Jackknife Accident" .
-
-:UnderrideAccident a owl:Class ; 
-    rdfs:subClassOf :TruckAccident ; 
-    rdfs:label "Underride Accident" .
-
-:FMCSA_Compliance a owl:Class ; 
-    rdfs:subClassOf :TruckAccident ; 
-    rdfs:label "FMCSA Compliance" .
-
 #################################################################
-#    5. Statutory Layer (Section 6.4)
+#    4. Statutory Layer (Section 6.4)
 #################################################################
 
 :TexasStatutoryAnchor a owl:Class ;
@@ -109,10 +86,14 @@
     rdfs:subClassOf :TexasStatutoryAnchor ; 
     rdfs:label "Chapter 33 Proportionate Responsibility" .
 
-:CPRC_16_Limitations a owl:Class ; 
-    rdfs:subClassOf :TexasStatutoryAnchor ; 
-    rdfs:label "Statute of Limitations" .
+#################################################################
+#    5. v2.0 Compliance Instance (Verification Entry)
+#################################################################
 
-:CPRC_41_ExemplaryDamages a owl:Class ; 
-    rdfs:subClassOf :TexasStatutoryAnchor ; 
-    rdfs:label "Exemplary Damages" .
+:SampleFirm_Dallas a :LegalServiceProvider ;
+    :hasDepthScore 5 ;
+    :hasPracticeArea :CarAccident ;
+    :operatesIn :DallasCounty ;
+    :lastValidated "2026-03-06T13:00:00Z"^^xsd:dateTime .
+
+:DallasCounty a :Jurisdiction ; rdfs:label "Dallas County, TX" .
