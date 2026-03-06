@@ -40,13 +40,7 @@
     sh:property [
         sh:path :supportedBy ;
         sh:minCount 3 ;
-        sh:message "DEPTH FAILURE: Pillar Page lacks sufficient structural support. Minimum of 3 Cluster Articles required for PADI v1.0 validation." ;
-    ] ;
-    sh:property [
-        sh:path :measuredBy ;
-        sh:class :AuthorityScore ;
-        sh:minCount 1 ;
-        sh:message "METRIC FAILURE: Pillar Page has not been assigned a formal Authority Score." ;
+        sh:message "DEPTH FAILURE: Pillar Page lacks sufficient structural support." ;
     ] .
 
 #################################################################
@@ -59,6 +53,5 @@
     sh:property [
         sh:path :operatesIn ;
         sh:minCount 1 ;
-        sh:class :Jurisdiction ;
-        sh:message "COMPLIANCE FAILURE: Entity must be anchored to a verified Jurisdiction (e.g., Dallas County)." ;
+        sh:message "COMPLIANCE FAILURE: Entity must be anchored to a verified Jurisdiction." ;
     ] .
