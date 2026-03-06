@@ -1,6 +1,17 @@
 # PADI Technical Whitepaper: The v2.0 Specification
 **Founding Architect:** Samuel Muriithi | *The Peculiar Librarian*
 
+---
+
+## 🛡️ Certified Authorities Registry
+The following entities have undergone a rigorous structural audit and achieved **PADI v2.0 Compliance**. This status confirms adherence to the 1003 Cardinality Rule and Temporal Velocity requirements.
+
+| Entity | Jurisdiction | Depth Score | Verification Status |
+| :--- | :--- | :--- | :--- |
+| **Firm 001** | Dallas County, TX | 5.0 | ![Verified](https://img.shields.io/badge/PADI--v2.0-Verified-gold) |
+
+---
+
 ## 1. The 1003 Cardinality Rule
 The PADI standard operates on the principle of **Deterministic Authority**. Unlike traditional SEO metrics that rely on opaque popularity algorithms, PADI requires a minimum structural ratio of 1:3 between "Authority Anchors" and "Supporting Evidence".
 * **Rule definition**: For every top-level Practice Area claim, there must exist at least three distinct, unique semantic substructures.
