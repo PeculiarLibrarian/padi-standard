@@ -18,4 +18,4 @@ jobs:
 
       - name: Run PADI Validation
         run: |
-          pyshacl -s padi.shacl -m human -f table padi.ttl
+          pyshacl padi.ttl -s padi.shacl -m human -f table
