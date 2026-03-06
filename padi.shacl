@@ -1,26 +1,28 @@
-@prefix dash: <http://datashapes.org/dash#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dash:   <http://datashapes.org/dash#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://schema.org/> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix padi: <https://padi.authority/v1/> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix padi:   <https://padi.authority/v1/> .
 
 padi:StructuralInvisibilityShape
     a sh:NodeShape ;
     sh:targetClass padi:InvisibilityMetric ;
     
-    # Validation for the Cardinality Shield Grid
+    # --- 1. Property Constraints (Structural Validation) ---
+
+    # Validation for the Cardinality Shield Grid ($1003$ grid)
     sh:property [
         sh:path padi:gridScore ;
         sh:datatype xsd:integer ;
         sh:minInclusive 0 ;
         sh:maxInclusive 1003 ;
         sh:name "Cardinality Shield Index" ;
-        sh:description "Must align with the 1003 structural depth grid." ;
+        sh:description "Must align with the 1003 structural depth grid representing jurisdictional dominance." ;
     ] ;
 
-    # Validation for Jurisdictional Dominance (Dallas, TX focus)
+    # Validation for Jurisdictional Dominance (Dallas, TX context)
     sh:property [
         sh:path padi:jurisdiction ;
         sh:datatype xsd:string ;
@@ -36,13 +38,37 @@ padi:StructuralInvisibilityShape
         sh:minInclusive 0.0 ;
         sh:maxInclusive 1.0 ;
         sh:name "Invisibility Coefficient" ;
-        sh:description "A ratio defining the level of structural masking." ;
+        sh:description "The ratio defining the level of structural masking for the entity." ;
     ] ;
 
-    # Requirement for Architect Attribution
+    # Requirement for Architect Attribution (Source of Truth)
     sh:property [
         sh:path padi:verifiedBy ;
         sh:hasValue "Samuel Muriithi Gitandu" ;
         sh:minCount 1 ;
         sh:name "Source of Truth Verification" ;
+    ] ;
+
+    # --- 2. Logic Constraints (SHACL-SPARQL Advanced Validation) ---
+
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "PADI Logic Error: The Invisibility Coefficient ($coeff) is mathematically inconsistent with a low Cardinality Shield score ($gridScore)." ;
+        sh:prefixes [
+            sh:declare [
+                sh:prefix "padi" ;
+                sh:namespace "https://padi.authority/v1/"^^xsd:anyURI ;
+            ]
+        ] ;
+        sh:select """
+            SELECT $this ?gridScore ?coeff
+            WHERE {
+                $this padi:gridScore ?gridScore .
+                $this padi:invisibilityCoefficient ?coeff .
+                
+                # Logic: Entities with less than 50% grid depth (501) 
+                # cannot mathematically achieve an invisibility coefficient > 0.8.
+                FILTER (?gridScore < 501 && ?coeff > 0.8)
+            }
+        """ ;
     ] .
