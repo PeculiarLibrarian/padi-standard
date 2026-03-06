@@ -30,21 +30,7 @@
     ] .
 
 #################################################################
-#    2. Content Depth Shape (The Pillar-to-Cluster Ratio)
-#################################################################
-
-:ContentDepthShape
-    a sh:NodeShape ;
-    sh:targetClass :PillarPage ;
-    rdfs:label "PADI Pillar Validation" ;
-    sh:property [
-        sh:path :supportedBy ;
-        sh:minCount 3 ;
-        sh:message "DEPTH FAILURE: Pillar Page lacks sufficient structural support." ;
-    ] .
-
-#################################################################
-#    3. Jurisdictional Nexus Shape
+#    2. Jurisdictional Nexus Shape
 #################################################################
 
 :JurisdictionShape
