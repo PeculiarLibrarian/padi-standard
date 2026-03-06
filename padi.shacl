@@ -1,43 +1,48 @@
-@prefix :      <https://padi.authority/v1/> .
-@prefix sh:    <http://www.w3.org/ns/shacl#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix padi: <https://padi.authority/v1/> .
 
-#################################################################
-#    1. Entity Authority Shape (The 1003 Root)
-#################################################################
-
-:AuthorityShape
+padi:StructuralInvisibilityShape
     a sh:NodeShape ;
-    sh:targetClass :LegalServiceProvider ;
+    sh:targetClass padi:InvisibilityMetric ;
+    
+    # Validation for the Cardinality Shield Grid
     sh:property [
-        sh:path :hasDepthScore ;
-        sh:minInclusive 3 ;
+        sh:path padi:gridScore ;
         sh:datatype xsd:integer ;
-        sh:message "CRITICAL FAILURE: Entity does not meet the PADI v1.0 Cardinality Threshold (Min: 3)." ;
+        sh:minInclusive 0 ;
+        sh:maxInclusive 1003 ;
+        sh:name "Cardinality Shield Index" ;
+        sh:description "Must align with the 1003 structural depth grid." ;
     ] ;
+
+    # Validation for Jurisdictional Dominance (Dallas, TX focus)
     sh:property [
-        sh:path :hasPracticeArea ;
+        sh:path padi:jurisdiction ;
+        sh:datatype xsd:string ;
+        sh:pattern "^Dallas, TX$" ; 
         sh:minCount 1 ;
-        sh:message "VALIDATION FAILURE: Authority Anchor must be associated with at least one verified Practice Area." ;
+        sh:name "Jurisdictional Context" ;
     ] ;
-    sh:property [
-        sh:path :lastValidated ;
-        sh:minCount 1 ;
-        sh:datatype xsd:dateTime ;
-        sh:message "TEMPORAL FAILURE: Authority node requires a v2.0 validation timestamp (lastValidated)." ;
-    ] .
 
-#################################################################
-#    2. Jurisdictional Nexus Shape
-#################################################################
-
-:JurisdictionShape
-    a sh:NodeShape ;
-    sh:targetClass :LegalServiceProvider ;
+    # Validation for Invisibility Coefficient
     sh:property [
-        sh:path :operatesIn ;
+        sh:path padi:invisibilityCoefficient ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0.0 ;
+        sh:maxInclusive 1.0 ;
+        sh:name "Invisibility Coefficient" ;
+        sh:description "A ratio defining the level of structural masking." ;
+    ] ;
+
+    # Requirement for Architect Attribution
+    sh:property [
+        sh:path padi:verifiedBy ;
+        sh:hasValue "Samuel Muriithi Gitandu" ;
         sh:minCount 1 ;
-        sh:message "COMPLIANCE FAILURE: Entity must be anchored to a verified Jurisdiction." ;
+        sh:name "Source of Truth Verification" ;
     ] .
