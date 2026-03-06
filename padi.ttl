@@ -9,13 +9,14 @@
     rdfs:comment "Official OWL 2 Logic for Practice-Area Depth Index (PADI) with Temporal Velocity tracking." .
 
 #################################################################
-#    1. Core Properties & Metrics
+#    1. Core Properties & Metrics (v2.0)
 #################################################################
 
 :lastValidated a owl:DatatypeProperty ;
     rdfs:domain :LegalServiceProvider ;
     rdfs:range xsd:dateTime ;
-    rdfs:label "Last Validation Timestamp" .
+    rdfs:label "Last Validation Timestamp" ;
+    rdfs:comment "ISO 8601 timestamp of the most recent PADI audit." .
 
 :hasDepthScore a owl:DatatypeProperty ;
     rdfs:domain :LegalServiceProvider ;
@@ -25,14 +26,6 @@
 :hasPracticeArea a owl:ObjectProperty ;
     rdfs:domain :LegalServiceProvider ;
     rdfs:range :PracticeArea .
-
-:supportedBy a owl:ObjectProperty ;
-    rdfs:domain :PillarPage ;
-    rdfs:range :ClusterArticle .
-
-:measuredBy a owl:ObjectProperty ;
-    rdfs:domain :PillarPage ;
-    rdfs:range :AuditMetric .
 
 :operatesIn a owl:ObjectProperty ;
     rdfs:domain :LegalServiceProvider ;
@@ -44,14 +37,11 @@
 
 :LegalServiceProvider a owl:Class ; rdfs:label "Legal Service Provider" .
 :PracticeArea a owl:Class ; rdfs:label "Practice Area" .
-:PillarPage a owl:Class ; rdfs:label "Pillar Page" .
-:ClusterArticle a owl:Class ; rdfs:label "Cluster Article" .
-:AuditMetric a owl:Class ; rdfs:label "Audit Metric" .
 :Jurisdiction a owl:Class ; rdfs:label "Jurisdiction" .
-:AuthorityScore a owl:Class ; rdfs:subClassOf :AuditMetric .
+:AuditMetric a owl:Class ; rdfs:label "Audit Metric" .
 
 #################################################################
-#    3. Accident Cluster Hierarchy (Section 6.1 & 6.2)
+#    3. Accident Cluster Hierarchy
 #################################################################
 
 :MotorVehicleAccident a owl:Class ;
@@ -66,31 +56,12 @@
     rdfs:subClassOf :MotorVehicleAccident ;
     rdfs:label "Truck Accident" .
 
-:MotorcycleAccident a owl:Class ;
-    rdfs:subClassOf :MotorVehicleAccident ;
-    rdfs:label "Motorcycle Accident" .
-
-:EighteenWheelerAccident a owl:Class ; 
-    rdfs:subClassOf :TruckAccident ; 
-    rdfs:label "18-Wheeler Accident" .
-
 #################################################################
-#    4. Statutory Layer (Section 6.4)
-#################################################################
-
-:TexasStatutoryAnchor a owl:Class ;
-    rdfs:subClassOf :AuditMetric ;
-    rdfs:label "Texas Statutory Compliance" .
-
-:CPRC_33_ProportionateResponsibility a owl:Class ; 
-    rdfs:subClassOf :TexasStatutoryAnchor ; 
-    rdfs:label "Chapter 33 Proportionate Responsibility" .
-
-#################################################################
-#    5. v2.0 Compliance Instance (Verification Entry)
+#    4. v2.0 Compliance Instance (The "Proof of Life")
 #################################################################
 
 :SampleFirm_Dallas a :LegalServiceProvider ;
+    rdfs:label "Example Law Firm (Dallas)" ;
     :hasDepthScore 5 ;
     :hasPracticeArea :CarAccident ;
     :operatesIn :DallasCounty ;
