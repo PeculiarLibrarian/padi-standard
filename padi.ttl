@@ -1,12 +1,49 @@
-@prefix : <https://padi.authority/v1/> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix :      <https://padi.authority/v1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 <https://padi.authority/v1/> rdf:type owl:Ontology ;
-    rdfs:label "PADI v1.0 Master Taxonomy" .
+    rdfs:label "PADI v2.0 Master Taxonomy" ;
+    rdfs:comment "Official OWL 2 Logic for Practice-Area Depth Index (PADI) with Temporal Velocity tracking." .
 
-### --- 6.1 Accident Cluster Hierarchy ---
+#################################################################
+#    1. Core Architecture Properties (v2.0)
+#################################################################
+
+:lastValidated a owl:DatatypeProperty ;
+    rdfs:domain :LegalServiceProvider ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "Last Validation Timestamp" ;
+    rdfs:comment "The precise ISO 8601 timestamp when this entity's authority was last audited by the PADI engine." .
+
+:hasDepthScore a owl:DatatypeProperty ;
+    rdfs:domain :LegalServiceProvider ;
+    rdfs:range xsd:integer ;
+    rdfs:label "Authority Depth Score" .
+
+:hasPracticeArea a owl:ObjectProperty ;
+    rdfs:domain :LegalServiceProvider ;
+    rdfs:range :PracticeArea .
+
+:supportedBy a owl:ObjectProperty ;
+    rdfs:domain :PillarPage ;
+    rdfs:range :ClusterArticle .
+
+#################################################################
+#    2. Top-Level Classes
+#################################################################
+
+:LegalServiceProvider a owl:Class ; rdfs:label "Legal Service Provider" .
+:PracticeArea a owl:Class ; rdfs:label "Practice Area" .
+:PillarPage a owl:Class ; rdfs:label "Pillar Page" .
+:ClusterArticle a owl:Class ; rdfs:label "Cluster Article" .
+:AuditMetric a owl:Class ; rdfs:label "Audit Metric" .
+
+#################################################################
+#    3. Accident Cluster Hierarchy (Section 6.1)
+#################################################################
 
 :MotorVehicleAccident a owl:Class ;
     rdfs:subClassOf :PracticeArea ;
@@ -24,7 +61,9 @@
     rdfs:subClassOf :MotorVehicleAccident ;
     rdfs:label "Motorcycle Accident" .
 
-### --- 6.2 Granular Subtopics (Verified Labels) ---
+#################################################################
+#    4. Granular Subtopics (Section 6.2)
+#################################################################
 
 :RearEndCollision a owl:Class ; 
     rdfs:subClassOf :CarAccident ; 
@@ -58,7 +97,9 @@
     rdfs:subClassOf :TruckAccident ; 
     rdfs:label "FMCSA Compliance" .
 
-### --- 6.4 Statutory Layer (Dallas Jurisdictional Anchor) ---
+#################################################################
+#    5. Statutory Layer (Section 6.4)
+#################################################################
 
 :TexasStatutoryAnchor a owl:Class ;
     rdfs:subClassOf :AuditMetric ;
