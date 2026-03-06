@@ -1,11 +1,12 @@
 cff-version: 1.2.0
 message: "If you use this standard in legal or semantic research, please cite it as follows."
 authors:
-  - family-names: "Muriithi"
-    given-names: "Samuel"
+  - family-names: "Gitandu"
+    given-names: "Samuel Muriithi"
     alias: "The Peculiar Librarian"
-title: "PADI: Practice-Area Depth Index Master Taxonomy"
-version: 1.0.3
+    affiliation: "PADI Authority Bureau"
+title: "PADI: Practice-Area Depth Index Technical Standard"
+version: 2.0.0
 date-released: 2026-03-06
 url: "https://github.com/PeculiarLibrarian/padi-standard"
 repository-code: "https://github.com/PeculiarLibrarian/padi-standard"
