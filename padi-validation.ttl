@@ -31,12 +31,19 @@ ex:ServiceProviderShape
         sh:severity sh:Violation ;
         sh:message "Critical: Jurisdictional anchoring missing for Alpha-9 Regional Corridors." ;
     ] ;
-    # NEW: Requirement for Fetch.ai Almanac Address
+    # ENFORCED: Valid Fetch.ai uAgent Address Format
     sh:property [
         sh:path padi:almanacAddress ;
         sh:minCount 1 ;
+        sh:maxCount 1 ;
         sh:datatype xsd:string ;
-        sh:pattern "^agent1[a-z0-9]{58}$" ;
+        sh:pattern "^agent1[a-z0-9]{58}$" ; 
         sh:severity sh:Violation ;
-        sh:message "A2A Error: Service Provider must provide a valid Fetch.ai Agent Address for PADI Bureau handshake." ;
+        sh:message "A2A Error: Service Provider must provide exactly one valid Fetch.ai agent address (58-character Bech32 format)." ;
+    ] ;
+    # OPTIONAL: Metadata verification
+    sh:property [
+        sh:path padi:nodeStatus ;
+        sh:in ( "Active" "Maintenance" "Discovery" ) ;
+        sh:severity sh:Info ;
     ] .
