@@ -1,0 +1,16 @@
+@prefix padi: <https://padi.standard/v3#> .
+@prefix ex: <https://padi.authority/instances#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# --- The Handshake Instance ---
+ex:Nairobi_Root_Provider
+    a padi:LegalServiceProvider ;
+    padi:operatesIn "Nairobi-9.1" ;
+    padi:almanacAddress "agent1q27c0qegfclzfqufa3nhswq3axd85fje4j9f80304a3d26r2ylhvv0fldxj" ;
+    padi:nodeStatus "Active" .
+
+# --- The Practice Area (Depth-Anchor) ---
+ex:SovereignArchitecture
+    a padi:PracticeArea ;
+    padi:hasCaseSubtype "Neuro-Symbolic" , "Ontological-Grounding" , "Agentic-Orchestration" ;
+    padi:groundingDOI "10.5281/zenodo.18894084" .
