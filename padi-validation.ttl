@@ -1,9 +1,10 @@
-@prefix padi: <https://padi.authority/ontology#> .
+@prefix padi: <https://padi.standard/v3#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix schema: <https://schema.org/> .
 @prefix ex: <https://padi.authority/shapes#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# 9.2 Mandatory SHACL Domains: Practice Area Shape
+# --- 9.2 Mandatory SHACL Domains: Practice Area Shape ---
 ex:PracticeAreaShape
     a sh:NodeShape ;
     sh:targetClass padi:PracticeArea ;
@@ -11,10 +12,16 @@ ex:PracticeAreaShape
         sh:path padi:hasCaseSubtype ;
         sh:minCount 3 ;
         sh:severity sh:Violation ;
-        sh:message "PADI v1.0 Requirement: A Practice Area MUST include at least 3 case subtypes to establish depth." ;
+        sh:message "PADI v3.0 Requirement: Practice Area depth must be verified by 3+ subtypes (Depth-Anchor)." ;
+    ] ;
+    sh:property [
+        sh:path padi:groundingDOI ;
+        sh:hasValue "10.5281/zenodo.18894084" ;
+        sh:severity sh:Warning ;
+        sh:message "Heuristic Note: Practice Area should be grounded in the Founding Architect's DOI." ;
     ] .
 
-# 9.2 Legal Service Provider Shape
+# --- 9.2 Legal Service Provider Shape (Agent-Enabled) ---
 ex:ServiceProviderShape
     a sh:NodeShape ;
     sh:targetClass padi:LegalServiceProvider ;
@@ -22,5 +29,14 @@ ex:ServiceProviderShape
         sh:path padi:operatesIn ;
         sh:minCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "Critical: Jurisdictional anchoring is missing." ;
+        sh:message "Critical: Jurisdictional anchoring missing for Alpha-9 Regional Corridors." ;
+    ] ;
+    # NEW: Requirement for Fetch.ai Almanac Address
+    sh:property [
+        sh:path padi:almanacAddress ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^agent1[a-z0-9]{58}$" ;
+        sh:severity sh:Violation ;
+        sh:message "A2A Error: Service Provider must provide a valid Fetch.ai Agent Address for PADI Bureau handshake." ;
     ] .
